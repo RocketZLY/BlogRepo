@@ -1,4 +1,5 @@
 # 1 IPC介绍
+
 既然是IPC的开篇那么先介绍下IPC的定义
 IPC:进程间通信或者跨进程通信,即进程间交换数据的过程.
 说到进程,那么需要了解下什么是进程.什么是线程,按操作系统描述,线程是CPU调度的最小单元,同时线程是一种有限的系统资源,而进程指一个执行单元,在PC和移动设备上指一个程序或者应用,一个进程可以包含多个线程,因此**进程和线程是包含和被包含的关系**,
@@ -6,6 +7,7 @@ IPC:进程间通信或者跨进程通信,即进程间交换数据的过程.
 在Android中进程间通信方式就是Binder了,除了Binder还有Socket不仅可以实现进程通信,也可以实现任意终端之间的通信,
 
 IPC在多进程使用情况分为两种:  
+
 - 应用因为某些原因自身需要采用多进程模式来运行,比如某些模块由于特殊原因需要运行在单独的进程中,又或者为了加大一个应用可使用的内存所以需要通过多进程来获取更多内存空间.  
 
 - 应用需要访问其他应用的数据.甚至我们通过系统提的ContentProvider去查询数据的时候,也是一种进程间通信.
@@ -13,39 +15,42 @@ IPC在多进程使用情况分为两种:
 总之采用了多进程的设计方法,那么就必须解决进程间通信的问题了.
 
 # 2 Android中多进程模式
+
 在Android中通过给四大组件指定android:process属性,我们可以轻易的开启多进程模式,但是同时也会带来一个麻烦,下面将会一一介绍
 
 ## 2.1 开启多进程模式
+
 Android中多进程一般指一个应用中存在多个进程的情况,因此这里不讨论两个应用之间的多进程情况,
 
 一般情况下Android中使用多进程只有一个方法,就是给四大组件在AndroidMenifest中指定android:process属性,还有一个非常特殊的方法,就是通过JNI在native层去fork一个新的进程,由于不常用,所以这里只介绍一般情况下的创建方式
 
 下面是一个例子描述如何创建多线程
-  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.zly.www.ipc">
 
-      <application
-          android:allowBackup="true"
-          android:icon="@mipmap/ic_launcher"
-          android:label="@string/app_name"
-          android:supportsRtl="true"
-          android:theme="@style/AppTheme">
-          <activity android:name="com.zly.www.ipc.MainActivity">
-              <intent-filter>
-                  <action android:name="android.intent.action.MAIN" />
+	  <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	      package="com.zly.www.ipc">
 
-                  <category android:name="android.intent.category.LAUNCHER" />
-              </intent-filter>
-          </activity>
+	      <application
+	          android:allowBackup="true"
+	          android:icon="@mipmap/ic_launcher"
+	          android:label="@string/app_name"
+	          android:supportsRtl="true"
+	          android:theme="@style/AppTheme">
+	          <activity android:name="com.zly.www.ipc.MainActivity">
+	              <intent-filter>
+	                  <action android:name="android.intent.action.MAIN" />
 
-          <activity android:name="com.zly.www.ipc.TwoActivity"
-              android:process=":zly"/>
+	                  <category android:name="android.intent.category.LAUNCHER" />
+	              </intent-filter>
+	          </activity>
 
-          <activity android:name="com.zly.www.ipc.ThreeActivity"
-              android:process="com.zly.www.ipc.zly"/>
-      </application>
+	          <activity android:name="com.zly.www.ipc.TwoActivity"
+	              android:process=":zly"/>
 
-  </manifest>
+	          <activity android:name="com.zly.www.ipc.ThreeActivity"
+	              android:process="com.zly.www.ipc.zly"/>
+	      </application>
+
+	  </manifest>
 
 
 这里是三个activity.
@@ -58,6 +63,7 @@ MainActivity未指定process所以运行在默认的进程中,而默认的进程
 确实开起了三个进程,但这只是开始,实际使用中多进程还有很多问题需要处理后面将细说
 
 ## 2.2 多进程模式的运行机制
+
 如果用一句话来形容多进程,那么可以这样描述,当应用开启了多进程以后,各种奇怪的现象就都来了,举个栗子,新建一个类User,里面有一个静态成员变量uId如下
 
     public class UserBean {
@@ -74,6 +80,7 @@ MainActivity未指定process所以运行在默认的进程中,而默认的进程
 上述问题出现的原因是TwoActivity运行在一个单独的进程中,而Android为每一个应用分配了一个独立的虚拟机,或者说为每一个进程都分配一个独立的虚拟机,不同的虚拟机在内存分配上有不同的地址空间,这就导致在不同的虚拟机中访问同一个类的对象会产生多份副本.拿我们这个例子来说,在TwoActivity所在进程和MainActivity所在进程都存在一个UserBean类,并且这两个类互相不干扰,在一个进程中修改uId值只会影响当前进程,对其他进程都不会造成任何影响,这样就解释了为什么在MainActivity修改uId的值,而在TwoActivity中uId值没有发生改变.
 
 **所有运行在不同进程中的四大组件,只要他们之间通过内存来共享数据都会失败**,这也是多进程带来的主要影响.一般来说,使用多进程会造成如下几个方面的问题
+
 1. 静态成员变量和单例模式失效
 
 2. 线程同步机制完全失效
@@ -116,9 +123,11 @@ MainActivity未指定process所以运行在默认的进程中,而默认的进程
 虽然多进程会给我们带来很多问题,但是系统给我们提供了很多跨进程通讯的方法,虽然说不能直接共享内存,但是通过跨进程通讯我们还是可以实现数据交互.实现跨进程通讯的方式有很多,比如Intent传递数据,共享文件和SharedPreferences,基于Binder的Messager和AiDL以及Socket,但是为了更好的理解IPC各种方式,下面先介绍些基础概念.
 
 ## 2.3 IPC基础概念
+
 下面介绍IPC中一些基本概念,Serializable接口,Parcelable接口以及Binder,熟悉这三种方式后,后面才能更好的理解跨进程通信的各种方式.
 
 ## 2.3.1 Serializable接口
+
 Serializable接口是Java提供的一个序列化接口,它是一个空接口,为对象提供标准的序列化和反序列化操作,实现Serializable来实现序列化相当简单,只需要在类的声明中指定一个类似下面的标示即可自动实现默认的序列化过程.
 
     public class UserBean implements Serializable{
@@ -127,6 +136,7 @@ Serializable接口是Java提供的一个序列化接口,它是一个空接口,�
 
         public static int uId = 1;
     }
+
 当然serialVersionUID并不是必须的,我们不声明这个同样也可以实现序列化,但是这个会对反序列化产生影响,具体影响后面介绍.
 
 通过Serializable实现对象的序列化,非常简单,几乎所有的工作都被系统完成了,具体对象序列化和反序列化如何进行的,只需要采用ObjectOutputStream和ObjectInputStream即可实现,下面看一个栗子
@@ -158,15 +168,16 @@ Serializable接口是Java提供的一个序列化接口,它是一个空接口,�
 
 刚开始提到,即使不指定serialVersionUID也可以实现序列化,那么这个到底是干嘛的呢,其实这个serialVersionUID是用来辅助序列化和反序列化过程的,**原则上序列化后的数据中的serialVersionUID只有和当前类的serialVersionUID相同才能够正常的被反序列化**.serialVerisonUID的工作机制是这样:序列化的时候把当前类的serialVersionUID写入序列化文件中(也可能是其他中介),当反序列化的时候系统会去检测文件中的SerialVerisonUID,看是否和当前类一致,如果一致则说明序列化的类和反序列化的类的版本相同序列化成功,否则说明当前类和序列化时的类发生了某些变化,这个时候无法序列化,会报如下异常
 
-    java.io.InvalidClassException: com.zly.www.ipc.UserBean;
-    Incompatible class (SUID): com.zly.www.ipc.UserBean:static final long serialVersionUID =213213213123L;
-    but expectedcom.zly.www.ipc.UserBean: static final long serialVersionUID =21333123L;
+	    java.io.InvalidClassException: com.zly.www.ipc.UserBean;
+	    Incompatible class (SUID): com.zly.www.ipc.UserBean: static final long serialVersionUID =213213213123L;
+	     but expected com.zly.www.ipc.UserBean: static final long serialVersionUID =21333123L;
 
 一般来说,我们应该手动指定serialVersionUID的值,如果不手动指定serialVersionUID,反序列化时当前类有所改变,比如增加或者删除了某些成员变量,那么系统会重新计算当前hash值并把他赋给serialVersionUID,这个时候当前类serialVerisonUID就和当前类不一致,序列化失败,所以当我们手动指定了它以后,就可以很大程度避免反序列化失败.比如当版本升级以后,我们可能只删除或者新增了某些成员变量,这个时候我们反序列化仍然能成功,程序仍然能最大限度的恢复数据,相反,如果不指定serialVerisonUID的话,程序则会crash,当然如果类的结构发生了非常规性改变,比如修改了类名,修改了成员变量的类型,这个时候尽管serialVersionUID通过了,但是反序列化的过程还是会失败,因为类的结构发生了毁灭性改变.
 
 另外需要注意下,首先静态成员变量属于类不属于对象,所以不会参与序列化过程;其次用transient关键字标记的成员变量不参与序列化过程.
 
 ## 2.3.2 Parcelable接口
+
 Parcelable也是一个接口,只要实现这个接口,一个类和对象就可以实现序列化并可以通过Intent和Binder传递.下面是个典型用法.
 
     public class UserBean implements Parcelable{
@@ -212,6 +223,7 @@ Parcelable也是一个接口,只要实现这个接口,一个类和对象就可�
 既然Parcelable与Serializable都能实现序列化,那我们该如何选择呢,Parcelable主要用在内存序列化上,其他情况用Serializable
 
 ## 2.3.3 Binder
+
 由于Binder是一个非常深入的话题不是一两句能说清的,所以本节侧重Binder的使用和上层原理.
 
 简单的说,Binder是Android中的一个类,实现了IBinder接口.Android开发中,Binder主要用于Service中,包括AIDL和Messenger,其中普通service中的Binder不涉及进程间通信,而Messenger底层就是AIDL,所以这里从AIDL入手分析Binder工作机制.(AIDL不太熟悉的同学可以参考我另一篇blog回顾下 [AIDL使用](http://blog.csdn.net/zly921112/article/details/53560913))
