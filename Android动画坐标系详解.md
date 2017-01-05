@@ -2,15 +2,20 @@
 
 
 Animation 动画一共有四个
+
 1. AlphaAnimation
 2. ScaleAnimation
 3. RotateAnimation
 4. TranslateAnimation
+
 而之所以会出现动画效果与所写不符的主要原因是对Animation.RELATIVE_TO_PARENT,Animation.RELATIVE_TO_SELF,Animation.ABSOLUTE这三个属性的理解不够,下面将详细讲解
 
 首先需要了解动画的原点是相对于该控件也就是自身的左上角.
+
 Animation.ABSOLUTE:指的绝对坐标(单位像素),假如100,就是相对于原点正方向偏移100个像素.
+
 Animation.RELATIVE_TO_SELF:指的是相对于自己.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移自身控件百分之五十长度.
+
 Animation.RELATIVE_TO_PARENT:指的是相对于父类.在该类型下值为float类型,比如0.5f,就是相对于原点正方向偏移父控件百分之五十长度.
 (ps:这尼玛不太懂啊...楼主太逗了... 别急后面有例子验证^_^)
 
@@ -41,7 +46,8 @@ Animation.RELATIVE_TO_PARENT:指的是相对于父类.在该类型下值为float
 ```
 很简单一个按钮开始动画,一个ImageView展示动画效果
 布局展示如下
-![这里写图片描述](http://img.blog.csdn.net/20160523203748633)
+
+![](http://img.blog.csdn.net/20160523203748633)
 
 activity代码
 ```
@@ -95,15 +101,22 @@ TranslateAnimation translateAnimation = new TranslateAnimation(
         );
 ```
 按照刚刚上面说的,这个平移动画
+
 x坐标是 (x轴原点+ImageView宽 * 0% = x轴原点) -> (x轴原点 + ImageView宽*50%)
+
 y坐标是 (y轴原点+ImageView高 * 0% = y轴原点) -> (y轴原点+ImageView高 * 0% = y轴原点)
+
 那么分析出来的结果应该是imageview向右水平平移,长度为ImageView宽*50%.
+
 效果如下
-![这里写图片描述](http://img.blog.csdn.net/20160523205827366)
+
+![](http://img.blog.csdn.net/20160523205827366)
 
 ----------------------
 **2.Animation.RELATIVE_TO_PARENT**
+
 核心代码如下
+
 ```
 TranslateAnimation translateAnimation = new TranslateAnimation(
                 Animation.RELATIVE_TO_SELF,0,
@@ -113,12 +126,16 @@ TranslateAnimation translateAnimation = new TranslateAnimation(
         );
 ```
 x坐标是 (x轴原点+ImageView宽 * 0% = x轴原点) -> (x轴原点+ImageView宽 * 0% = x轴原点)
+
 y坐标是 (y轴原点+ImageView高 * 0% = y轴原点) -> (y轴原点+Relativelayout* 50%)
+
 那么分析出来的结果应该是imageview向下垂直平移,长度为Relativelayout高 * 50%
-![这里写图片描述](http://img.blog.csdn.net/20160523205844663)
+
+![](http://img.blog.csdn.net/20160523205844663)
 
 -------------------------------
 **3.Animation.ABSOLUTE**
+
 该属性下我们想实现imageview向右平移,长度为imageview宽度一半,由于Animation.ABSOLUTE下输入数值单位为像素,那么根据dp=px*160/dpi即px=dp*dpi/160,这里我使用的模拟器是xxhdpi的即dpi等于480,然后imageview宽为200dp一半就是100dp所以要想实现该效果px为300
 核心代码如下
 
@@ -131,18 +148,25 @@ TranslateAnimation translateAnimation = new TranslateAnimation(
         );
 ```
 效果和我们分析的一样
-![这里写图片描述](http://img.blog.csdn.net/20160523211120344)
+
+![](http://img.blog.csdn.net/20160523211120344)
+
 <br>
 <br>
 <br>
 <br>
 
 **总结**
+
 view动画除了通过java代码实现外还有xml方式,对于这三个属性理解跟上面并无差别,唯一需要注意的是
 xml中
+
 1) 当值为"50"表示使用绝对位置定位
+
 2) 当值为"50%"表示使用相对于自身控件定位
+
 3) 当值为"50%p"表示使用相对于父控件定位
+
 这里也给上一个例子方便理解
 ```
 <?xml version="1.0" encoding="utf-8"?>

@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 打印结果
-![这里写图片描述](http://img.blog.csdn.net/20160313152205905)
+
+![](http://img.blog.csdn.net/20160313152205905)
+
 这就是一个Eventbus最简单的用法,只是在activity中添加了eventbus的注册,注销,发送事件,接收事件四步分别对应如下
 
 注册eventbus
@@ -70,9 +72,10 @@ EventBus.getDefault().post("你好世界");
     }
 ```
 这里要注意
-1.发送事件和接收事件是靠着发送事件参数类型和接收事件方法参数类型相对应的.即这里EventBus.getDefault().post("你好世界")发送的事件为String类型,接收事件方法public void receiverMessage(String msg)参数也为String类型,所以可以接收到事件.
-2.在3.0之前，EventBus还没有使用注解方式。消息处理的方法也只能限定于onEvent、onEventMainThread、onEventBackgroundThread和onEventAsync，分别代表四种线程模型。而在EventBus3.0以后方法名你不必再去约定OnEvent为方法开头了,取而带之的是需要添加一个注解@Subscribe，其含义为订阅者,消息处理的方法可以随便取名，但要指定线程模型（默认为PostThread），四种线程模型，下面会讲到。
-注意，事件处理函数的访问权限必须为public，否则会报异常。
+
+1. 发送事件和接收事件是靠着发送事件参数类型和接收事件方法参数类型相对应的.即这里EventBus.getDefault().post("你好世界")发送的事件为String类型,接收事件方法public void receiverMessage(String msg)参数也为String类型,所以可以接收到事件.
+
+2. 在3.0之前，EventBus还没有使用注解方式。消息处理的方法也只能限定于onEvent、onEventMainThread、onEventBackgroundThread和onEventAsync，分别代表四种线程模型。而在EventBus3.0以后方法名你不必再去约定OnEvent为方法开头了,取而带之的是需要添加一个注解@Subscribe，其含义为订阅者,消息处理的方法可以随便取名，但要指定线程模型（默认为PostThread），四种线程模型，下面会讲到。注意，事件处理函数的访问权限必须为public，否则会报异常。
 
 **2.线程模型**
 -------
@@ -133,7 +136,8 @@ Log.i("test", "post->" + Thread.currentThread().getId());
 ```
 
 打印结果
-![这里写图片描述](http://img.blog.csdn.net/20160313160650284)
+
+![](http://img.blog.csdn.net/20160313160650284)
 
 在将发送事件改为子线程发送,接收事件方法不变
 ```
@@ -147,7 +151,9 @@ new Thread(){
         }.start();
 ```
 打印结果
-![这里写图片描述](http://img.blog.csdn.net/20160313160940136)
+
+![](http://img.blog.csdn.net/20160313160940136)
+
 从测试可以看出上面结论准确无误
 
 **3.事件接收优先级和取消事件**
@@ -171,7 +177,9 @@ EventBus.getDefault().post(new Event.Message("帅也是错吗"));//发送事件
     }
 ```
 打印结果
-![这里写图片描述](http://img.blog.csdn.net/20160313164757794)
+
+![](http://img.blog.csdn.net/20160313164757794)
+
 相同线程模型下优先级高的先执行.
 
 不同线程模型订阅事件
@@ -187,7 +195,9 @@ EventBus.getDefault().post(new Event.Message("帅也是错吗"));//发送事件
     }
 ```
 打印结果
-![这里写图片描述](http://img.blog.csdn.net/20160313164853081)
+
+![](http://img.blog.csdn.net/20160313164853081)
+
 事件优先级不影响不同线程模型订阅事件顺序.
 
 你可以取消事件订阅通过调用cancelEventDelivery(Object event)方法,任何进一步的事件交付将被取消,后续用户不会接收到事件,但是该方法只有在ThreadMode.PostThread事件处理方法中调用才有效.
@@ -211,7 +221,9 @@ EventBus.getDefault().post(new Event.Message("帅也是错吗"));//发送事件
     }
 ```
 打印结果
-![这里写图片描述](http://img.blog.csdn.net/20160313170728604)
+
+![](http://img.blog.csdn.net/20160313170728604)
+
 成功取消了事件
 
 **4.粘性事件**
@@ -338,8 +350,11 @@ public class MainActivity extends AppCompatActivity {
 
 ```
 代码很简单，界面上三个按钮，一个用来发送黏性事件，一个用来订阅事件，还有一个用来取消订阅的。首先在未订阅的情况下点击发送按钮发送一个黏性事件，然后点击订阅,打印如下:
-![这里写图片描述](http://img.blog.csdn.net/20160313180250252)
+
+![](http://img.blog.csdn.net/20160313180250252)
+
 这就是粘性事件，能够收到订阅之前发送的消息。但是它只能收到最新的一次消息，比如说在未订阅之前已经发送了多条黏性消息了，然后再订阅只能收到最近的一条消息。这个我们可以验证一下，我们连续点击发送事件按钮发送黏性事件，然后再点击注册按钮订阅，打印结果如下：
-![这里写图片描述](http://img.blog.csdn.net/20160313180633865)
+
+![](http://img.blog.csdn.net/20160313180633865)
 
 到这里EventBus3.0使用介绍完毕,还有什么可以补充的欢迎留言

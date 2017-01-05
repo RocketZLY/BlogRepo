@@ -1,7 +1,9 @@
 >做过Md风格app的朋友都应该用过Drawerlayout,而Drawerlayout的内容一般情况下是可以用support design包下的navigationview来实现。正如曾经的actionbar一样,看似非常完美了，，但当你希望去修改每个icon颜色或者每个文字颜色的时候却无法做到。正因如此本文主要介绍自定义navigationview的实现。还未使用过md风格控件的朋友可以先看看我另外一篇博客http://blog.csdn.net/zly921112/article/details/50733435
 
 先来看我们要实现的效果
-![这里写图片描述](http://img.blog.csdn.net/20160404154642876)
+
+![](http://img.blog.csdn.net/20160404154642876)
+
 从navigationview源码发现,整个列表其实就是用recyclerview实现,那么同样我们也依葫芦画瓢,直接撸码
 
 activity的布局文件
@@ -406,14 +408,18 @@ dimens.xml
 到此已经可以实现navigationview一样的效果了,但是到此还有一点小小的瑕疵就是条目点击的波纹效果
 
 可以通过如下代码设置波纹的背景：
+
 A:   android:background="?android:attr/selectableItemBackground"波纹有边界
+
 B:   android:background="?android:attr/selectableItemBackgroundBorderless"波纹超出边界
 
 效果A:
-![这里写图片描述](http://img.blog.csdn.net/20160404162952877)
+
+![](http://img.blog.csdn.net/20160404162952877)
 
 效果B:
-![这里写图片描述](http://img.blog.csdn.net/20160404163003284)
+
+![](http://img.blog.csdn.net/20160404163003284)
 
 显然只需要给列表布局加上android:background="?android:attr/selectableItemBackground"即可完成点击波纹效果
 而这个波纹的颜色我们可以通过修改styles.xml中colorControlHighlight(android:colorControlHighlight：设置波纹颜色)属性来调节动画颜色，从而可以适应不同的主题,但有一点要注意这个波纹效果只能在5.0以上有效,5.0以下就跟普通选择器一样.

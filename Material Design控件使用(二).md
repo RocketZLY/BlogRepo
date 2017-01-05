@@ -14,6 +14,7 @@
 FloatingActionButton是重写ImageView的，所以FloatingActionButton拥有ImageView的一切属性。
 
 基本属性
+
 | xml参数 | 含义 | 备注 |
 | ------------- |:-------------:| -----:|
 | app:backgroundTint | FAB的背景颜色 |  |
@@ -24,10 +25,12 @@ FloatingActionButton是重写ImageView的，所以FloatingActionButton拥有Imag
 | src  | 设置FAB的图标 | Google建议符合Design设计的该图标大小为24dp |
 | app:layout_anchor  | 设置FAB的锚点 | 即以哪个控件为参照物设置位置 |
 | app:layout_anchorGravity  | 设置FAB相对锚点的位置 | 有 bottom、center、right、left、top等 |
+
 <font color=#ff0000>有时候会出现点击效果不显示的情况，可以试试 加上 clickable = "true" 这个属性，应该是焦点未获取到导致的</font>
 
 简单使用
-![这里写图片描述](http://img.blog.csdn.net/20160507153109398)
+
+![](http://img.blog.csdn.net/20160507153109398)
 
 xml布局
 ```
@@ -47,7 +50,9 @@ xml布局
 接下来将实现二个比较常见的效果
 
 **1.随着appbar隐藏**
-![这里写图片描述](http://img.blog.csdn.net/20160507153753501)
+
+![](http://img.blog.csdn.net/20160507153753501)
+
 这里是在[Material Design控件总结(一)](http://blog.csdn.net/zly921112/article/details/50733435)基础上实现的也就是利用了Fab app:layout_anchor锚点的属性将它与AppBarLayout关联,然后随着CollapsingToolbarLayout而隐藏,activity中并无其他代码
 
 ```
@@ -113,7 +118,9 @@ xml布局
 
 
 **2.随着Recyclerview滑动而隐藏**
-![这里写图片描述](http://img.blog.csdn.net/20160507162156278)
+
+![](http://img.blog.csdn.net/20160507162156278)
+
 相对于上面在Fab加一个属性app:layout_behavior (至于这个是干嘛的这里先贴上一段介绍Behavior只有是CoordinatorLayout的直接子View才有意义。可以为任何View添加一个Behavior.Behavior是一系列回调。让你有机会以非侵入的为View添加动态的依赖布局，和处理父布局(CoordinatorLayout)滑动手势的机会。)后面有空再讲解
 这里先上xml
 
@@ -275,13 +282,17 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
 >以前我们在应用viewpager的时候，经常会使用TabPageIndicator来与其配合达到tab选项卡效果。但是毕竟是第三方库用着总有点不放心,然而随着support design包的到来谷歌终于为我们带来了原生控件tablayout,从此选项卡效果不在需要第三方就可以实现
 
 基本属性
+
 | 属性 | 含义 |
 | ------------- |:-------------:|
 | app:tabTextColor | Tab未被选中字体的颜色 |
 | app:tabSelectedTextColor | tab被选中后，文字的颜色  |
 | app:tabIndicatorColor | Tab指示器下标的颜色 |
+
 使用也非常简单直接根据效果来看代码好了
-![这里写图片描述](http://img.blog.csdn.net/20160508202952180)
+
+![](http://img.blog.csdn.net/20160508202952180)
+
 xml布局
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -421,18 +432,24 @@ public class MainPageAdapter extends FragmentPagerAdapter {
  - setupWithViewPager(ViewPager viewPager)
 
 这里解释下setTabMode(int mode)方法,直接看效果就明白了
+
 tabLayout.setTabMode(TabLayout.MODE_FIXED);  
-![这里写图片描述](http://img.blog.csdn.net/20160508212040734)
+
+![](http://img.blog.csdn.net/20160508212040734)
+
 TabLayout.MODE_FIXED->tablayout直接显示出所有title
 
 tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);  
-![这里写图片描述](http://img.blog.csdn.net/20160508212210797)
+
+![](http://img.blog.csdn.net/20160508212210797)
+
 TabLayout.MODE_SCROLLABLE->tablayout在当前屏幕下能显示多少就显示多少title显示不下的可以滑动tablayout查看
 
 **Snackbar**
 -------------
 Snackbar使用的时候需要一个控件容器用来容纳Snackbar.官方推荐使用CoordinatorLayout,因为使用这个控件，可以保证Snackbar可以让用户通过向右滑动退出。并且Snackbar不会遮挡FAB的显示了，当Snackbar出现时FAB会自动上移。
-![这里写图片描述](http://img.blog.csdn.net/20160507174721190)
+
+![](http://img.blog.csdn.net/20160507174721190)
 
 使用跟Toast类似
 ```
@@ -440,7 +457,8 @@ Snackbar.make(collapsingToolbarLayout,"弹出了",Snackbar.LENGTH_SHORT).show();
 ```
 
 除了这样之外Snackbar还可以支持一个按钮
-![这里写图片描述](http://img.blog.csdn.net/20160507175725049)
+
+![](http://img.blog.csdn.net/20160507175725049)
 
 ```
 Snackbar.make(collapsingToolbarLayout,"弹出了",Snackbar.LENGTH_SHORT)
@@ -538,7 +556,8 @@ Snackbar snackbar = Snackbar.make(collapsingToolbarLayout, "弹出了", Snackbar
         ((TextView)snackbar.getView().findViewById(R.id.snackbar_text)).setTextColor(0xff03A9F4);
         snackbar.show();
 ```
-![这里写图片描述](http://img.blog.csdn.net/20160507222628956)
+
+![](http://img.blog.csdn.net/20160507222628956)
 
 
 **TextInputLayout**
@@ -546,7 +565,9 @@ Snackbar snackbar = Snackbar.make(collapsingToolbarLayout, "弹出了", Snackbar
 >该控件是用于EditView输入框的，主要解决之前EditView在获得焦点编辑时hint属性提示语消失，这一点在一个页面有多个EditView输入框的时候不是很好，因为很有可能用户在输入多个EditView之后，不知道当前EditView需要输入什么内容。为了解决这一问题，TextInputLayout就此诞生了。
 
 TextInputLayout控件和LinearLayout完全一样，它只是一个容器。跟ScrollView一样，TextInputLayout只接受一个子元素。子元素需要是一个EditText元素说，先上效果图：
-![这里写图片描述](http://img.blog.csdn.net/20160507225319997)
+
+![](http://img.blog.csdn.net/20160507225319997)
+
 还真别说体验感上了一个档次,使用也非常简单接下来看xml代码
 ```
 <?xml version="1.0" encoding="utf-8"?>
@@ -619,15 +640,19 @@ TextInputLayout控件和LinearLayout完全一样，它只是一个容器。跟Sc
 TextInputLayout 不仅能显示提示语,而且还能把错误信息显示在EditView之下。
 
 TextInputLayout常用的方法有如下：
-setHint()：设置提示语。
-getEditText()：得到TextInputLayout中的EditView控件。
-setErrorEnabled():设置是否可以显示错误信息。
-setError()：设置当用户输入错误时弹出的错误信息。
+
+- setHint()：设置提示语。
+- getEditText()：得到TextInputLayout中的EditView控件。
+- setErrorEnabled():设置是否可以显示错误信息。
+- setError()：设置当用户输入错误时弹出的错误信息。
 
 另外需要注意下
-1.setErrorEnabled开启错误提醒功能。这直接影响到布局的大小，增加底部padding为错误标签让出空间。在setError设置错误消息之前开启这个功能意味着在显示错误的时候布局不会变化。
-2.如果传入非null参数的setError，那么setErrorEnabled(true)将自动被调用。
-3.TextInputLayout选中的颜色为主题中colorAccent属性
+
+1. setErrorEnabled开启错误提醒功能。这直接影响到布局的大小，增加底部padding为错误标签让出空间。在setError设置错误消息之前开启这个功能意味着在显示错误的时候布局不会变化。
+
+2. 如果传入非null参数的setError，那么setErrorEnabled(true)将自动被调用。
+
+3. TextInputLayout选中的颜色为主题中colorAccent属性
 
 ```
 <item name="colorAccent">@color/colorAccent</item>

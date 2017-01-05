@@ -5,9 +5,12 @@ http://chinagdg.org/2016/01/picking-your-compilesdkversion-minsdkversion-targets
 http://www.race604.com/android-targetsdkversion/
 
 这里先做个简单的介绍,后面详细的说明
-minSdkVersion:应用可以运行的最低要求
-compileSdkVersion:控制可以使用哪个版本的api
-targetSdkVersion:应用的兼容模式
+
+- minSdkVersion:应用可以运行的最低要求
+
+- compileSdkVersion:控制可以使用哪个版本的api
+
+- targetSdkVersion:应用的兼容模式
 
 **minSdkVersion**
 ----------------------
