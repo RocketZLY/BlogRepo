@@ -452,7 +452,13 @@ Parcelable也是一个接口,只要实现这个接口,一个类和对象就可�
 
   ![](http://of1ktyksz.bkt.clouddn.com/ipc1_image4.png)
 
-  然后transact方法实际调用的
+  都调用的mRemote.transact()方法,再来看看mRemote是什么
+
+  ![](http://of1ktyksz.bkt.clouddn.com/ipc1_image13.png)
+
+  ![](http://of1ktyksz.bkt.clouddn.com/ipc1_image12.png)
+
+  可以看出mRemote就是Binder,然后transact方法实际调用的
 
   ![](http://of1ktyksz.bkt.clouddn.com/ipc1_image9.png)
 
@@ -462,7 +468,9 @@ Parcelable也是一个接口,只要实现这个接口,一个类和对象就可�
 
   经过这个流程就回到服务端的实现的Stub了,所以当返回值为Stub.Proxy我们实际走的跨进程的
 
-  当然这里还有些疑问比如Binder是如何从service传递到client的,然后他为何调用了transact就为跨进程调用..目前我也不知道,但是开发艺术在后面应该会讲,所以我们暂且把这个问题留下后面再解决
+	总结一下,其实同一个进程的话 aidl就类似接口回调,如果不同进程的话 就是client拿到 stub.proxy 然后调用方法 在回调到 service中 stub的onTransact根据code判断在调用具体的方法
+
+	当然这里还有些疑问比如Binder是如何从service传递到client的,然后他为何调用了transact就为跨进程调用..目前我也不知道,但是开发艺术在后面应该会讲,所以我们暂且把这个问题留下后面再解决
 
 - asBinder
 
