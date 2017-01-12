@@ -33,7 +33,7 @@ material style头部
 ### 依赖
 gradle依赖(一切不能gradle依赖的库都是耍流氓^_^,所以我加上了)
 
-	compile 'com.zly:easyrecyclerview:1.0.0'
+	compile 'com.yysauce:easyrecyclerview:1.0.0' 
 
  library依赖
 
