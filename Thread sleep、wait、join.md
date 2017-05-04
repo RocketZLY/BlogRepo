@@ -70,6 +70,8 @@ public class MyClass {
 
 ![](http://of1ktyksz.bkt.clouddn.com/thread_join%28%29_result1.png)
 
+先打印了main start,然后由于我们调用了t.join()于是主线程等待other线程执行完毕后在继续执行,所以打印出other start,other end,最后打印出main end.
+
 接下来我们将join()方法替换成join(1000)
 
 运行结果.
@@ -140,7 +142,7 @@ public static void main(String[] args) {
 
 ![](http://of1ktyksz.bkt.clouddn.com/thread_sleep%28%29_synchronized.gif)
 
-可以发现即使method1()中调用了Thread.sleep(),但对象锁并未释放,所以休眠3秒后依次执行main end->other start->other end.这里可以留意下后面在wait()方法的时候我们会做个对比.
+可以发现即使method1()中调用了Thread.sleep(),但**对象锁并未释放**,所以休眠3秒后依次执行main end->other start->other end.这里可以留意下后面在wait()方法的时候我们会做个对比.
 
 ## wait()
 
