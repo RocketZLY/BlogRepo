@@ -1,4 +1,4 @@
-# HashMap源码解析
+# HashMap源码解析（JDK8）
 
 ### 前言
 
