@@ -70,7 +70,7 @@ ExampleRepo.getRequest1()
 
 结果与预期并无差异
 
-![](http://of1ktyksz.bkt.clouddn.com/rxjava_flatMapResult.png)
+![](http://rocketzly.androider.top/rxjava_flatMapResult.png)
 
 #### 2. 网络请求合并
 
@@ -119,7 +119,7 @@ Observable.zip(
 
 结果和预期相同
 
-![](http://of1ktyksz.bkt.clouddn.com/rxjava_zipResult.png)
+![](http://rocketzly.androider.top/rxjava_zipResult.png)
 
 #### 3. 三级缓存
 
@@ -186,7 +186,7 @@ fun getData() {
 
 打印结果如下
 
-![](http://of1ktyksz.bkt.clouddn.com/rxjava_concatResult.png)
+![](http://rocketzly.androider.top/rxjava_concatResult.png)
 
 #### 4.组合判断
 
@@ -306,7 +306,7 @@ Observable.combineLatest(
 
 然后我们看下效果,只有满足我们条件的时候按钮才可点击
 
-![](http://of1ktyksz.bkt.clouddn.com/rxjava_combineLatestResult.gif)
+![](http://rocketzly.androider.top/rxjava_combineLatestResult.gif)
 
 #### 5. 网络请求错误重试
 
@@ -353,7 +353,7 @@ fun load(){
 
 日志如下
 
-![](http://of1ktyksz.bkt.clouddn.com/rxjava_retryWhenResult.png)
+![](http://rocketzly.androider.top/rxjava_retryWhenResult.png)
 
 #### 6.联想搜索优化
 
@@ -444,7 +444,7 @@ et.addTextChangedListener()
 
 然后我们看下效果,只要两次输入间隔大于1.5秒,就会把搜索内容显示出来
 
-![](http://of1ktyksz.bkt.clouddn.com/rxjava_debounceResult.gif)
+![](http://rocketzly.androider.top/rxjava_debounceResult.gif)
 
 #### 7. 防止多次点击
 
@@ -500,7 +500,7 @@ bt.setOnClickListener {
 
 日志如下
 
-![](http://of1ktyksz.bkt.clouddn.com/rxjava_throttleFirstResult.png)
+![](http://rocketzly.androider.top/rxjava_throttleFirstResult.png)
 
 可以看到即使多次点击,每次间隔也有1秒
 
