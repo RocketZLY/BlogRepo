@@ -192,10 +192,10 @@ public class BaseDexClassLoader extends ClassLoader {
 
 `BaseDexClassLoader`的构造函数包含四个参数：
 
-- **dexPath：**包含类和资源的jar / apk文件列表，由 `File.pathSeparator`分隔，在Android上默认为：。
-- **optimizedDirectory：**由于dex文件被包含在APK或者Jar文件中,因此在装载目标类之前需要先从APK或Jar文件中解压出dex文件,该参数就是制定解压出的dex 文件存放的路径。这也是对apk中dex根据平台进行ODEX优化的过程。自API26开始无效。
-- **librarySearchPath：**指目标类中所使用的C/C++库存放的路径，可以为null。
-- **parent：**父`ClassLoader`引用。
+- dexPath：包含类和资源的jar / apk文件列表，由 `File.pathSeparator`分隔，在Android上默认为：。
+- optimizedDirectory：由于dex文件被包含在APK或者Jar文件中,因此在装载目标类之前需要先从APK或Jar文件中解压出dex文件,该参数就是制定解压出的dex 文件存放的路径。这也是对apk中dex根据平台进行ODEX优化的过程。自API26开始无效。
+- librarySearchPath：指目标类中所使用的C/C++库存放的路径，可以为null。
+- parent：父`ClassLoader`引用。
 
 接下来我们查看`DexPathList`的构造方法和`findxxx()`方法。
 
