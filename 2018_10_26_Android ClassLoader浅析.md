@@ -290,7 +290,7 @@ final class DexPathList {
 
 加载我们自己的dex文件需要用到`DexClassLoader`，然后通过反射取出`DexClassLoader`中的`DexPathList`对象中的`Element[]`数组插入到`PathClassLoader`中`Element[]`数组前面即可。
 
-热更新实际例子的话我会在下篇博客给出敬请期待嘿嘿嘿。
+热更新实际例子我会在另一篇[Android 手动实现热更新](https://blog.csdn.net/zly921112/article/details/83547750)介绍。
 
 
 
