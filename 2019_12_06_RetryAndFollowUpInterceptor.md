@@ -1,4 +1,4 @@
-# RetryAndFollowUpInterceptor
+# RetryAndFollowUpInterceptor源码解析
 
 > 本文基于okhttp3.10.0
 
@@ -421,7 +421,7 @@ public class Interceptor {
         return requestBuilder.url(url).build();
 ```
 
-可以看到在返回码307或308的时候，只有请求方法不是get不是head才会重定向，300、301、302、303都会重定向，先判断客户端是否允许重定向client#followRedirects()，默认是允许的，然后拿到response中头部location的值作为重定向地址，然后对url做了一些判断，最关键的来了 ** 如果你的请求不是get不是head，我们就假设是post则他会重定向为get请求并且把请求体丢了，对你没有看错基本等于是重定向一律转为get请求并且把请求体丢了。 ** 其实http协议中规定的是301、302禁止将post转为get的，但是由于大部分浏览器都没有遵守都是转为了get，所以okhttp也沿用了这个做法。
+可以看到在返回码307或308的时候，只有请求方法不是get不是head才会重定向，300、301、302、303都会重定向，先判断客户端是否允许重定向client#followRedirects()，默认是允许的，然后拿到response中头部location的值作为重定向地址，然后对url做了一些判断，最关键的来了 **如果你的请求不是get不是head，我们就假设是post则他会重定向为get请求并且把请求体丢了，对你没有看错基本等于是重定向一律转为get请求并且把请求体丢了。** 其实http协议中规定的是301、302禁止将post转为get的，但是由于大部分浏览器都没有遵守都是转为了get，所以okhttp也沿用了这个做法。
 
 ## 3. 总结
 
